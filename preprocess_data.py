@@ -19,7 +19,7 @@ def get_fundamental_data(ticker_symbol):
 	return fundamental_data
   
 def add_release_date(ticker_symbol, fundamental_data):
-	release_date = pd.read_csv('/Users/siyixie/trading_strat/fundamental/release_date/%s.csv'%(ticker_symbol), parse_dates=True)
+	release_date = pd.read_csv('release_date/%s.csv'%(ticker_symbol), parse_dates=True)
 	fundamental_data = fundamental_data['06q4':] # match the information, since all release date is from 01/01/2007 (q4 2006 data)
 	# merge the two tables
 	# create common key of quarter

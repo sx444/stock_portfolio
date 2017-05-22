@@ -1,3 +1,8 @@
+stocks = ['TICKER1', 'TICKER2', 'TICKER3', ...]
+start_date = 'year-month-day'
+end_date = 'year-month-day'
+
+
 def get_stocks_returns(stocks, start_date, end_date):
 	'''
 	get data from yahoo; output is pandas (columns are the stocks, rows are daily returns)
@@ -12,7 +17,7 @@ def get_stocks_returns(stocks, start_date, end_date):
 	return returns
   
 
-returns = get_stocks_returns(stocks, start_date, end_date) # pd df *days * assets
+returns = get_stocks_returns(stocks, start_date, end_date) 
 returns = returns.as_matrix()
 returns = returns.T
 # plot the stocks return
@@ -35,7 +40,6 @@ def random_portfolio(returns):
     C = np.asmatrix(np.cov(returns))
     mu = w * p.T
     sigma = np.sqrt(w * C * w.T)
-    # This recursion reduces outliers to keep plots pretty
     if sigma > 2:
         return random_portfolio(returns)
     return mu, sigma
@@ -65,16 +69,12 @@ def optimal_portfolio(returns):
     h = opt.matrix(0.0, (n ,1))
     A = opt.matrix(1.0, (1, n))
     b = opt.matrix(1.0)
-    # Calculate efficient frontier weights using quadratic programming
     portfolios = [solvers.qp(mu*S, -pbar, G, h, A, b)['x'] 
                   for mu in mus]
-    ## CALCULATE RISKS AND RETURNS FOR FRONTIER
     returns = [blas.dot(pbar, x) for x in portfolios]
     risks = [np.sqrt(blas.dot(x, S*x)) for x in portfolios]
-    ## CALCULATE THE 2ND DEGREE POLYNOMIAL OF THE FRONTIER CURVE
     m1 = np.polyfit(returns, risks, 2)
     x1 = np.sqrt(m1[2] / m1[0])
-    # CALCULATE THE OPTIMAL PORTFOLIO
     wt = solvers.qp(opt.matrix(x1 * S), -pbar, G, h, A, b)['x']
     return np.asarray(wt), returns, risks
 

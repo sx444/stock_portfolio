@@ -1,7 +1,8 @@
+'''preprocess part of the features used in machine learning modeling for stock prcie movement prediction'''
+
 from sklearn.preprocessing import StandardScaler
 import numpy as np 
 import pandas as pd
-
 
 def get_fundamental_data(ticker_symbol):
 	"""load table from local file"""

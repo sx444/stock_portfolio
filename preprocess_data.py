@@ -1,3 +1,8 @@
+from sklearn.preprocessing import StandardScaler
+import numpy as np 
+import pandas as pd
+
+
 def get_fundamental_data(ticker_symbol):
 	"""load table from local file"""
 	fundamental_data = pd.read_csv('%s_fundamental_data.csv' % (ticker_symbol),index_col=0, parse_dates=True).transpose()
